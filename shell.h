@@ -12,4 +12,20 @@
 #include <limits.h>
 #include <fcntl.h>
 
+extern char **environ;
+
+char *readinput(void);
+
+char *_strdup(const char *str);
+char *_strcpy(char *dest, char *src);
+char *_strcat(char *dest, char *src);
+int _strcmp(char *s1, char *s2);
+int _strlen(char *string);
+
+char **tokenizer(char *line);
+
+void free_arr(char **arr);
+
+int execute_command(char **command,char** argv);
+
 #endif /* SHELL_H */
