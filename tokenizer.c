@@ -10,7 +10,7 @@ char **tokenizer(char *line)
 {
 	char *token = NULL, delim[] = " \t\n", *dup = NULL;
 	char **command = NULL;
-	int c, i = 0;
+	int c = 0, i = 0;
 
 	if (!line)
 		return (NULL);
