@@ -11,11 +11,28 @@ int execute_command(char **command, char **argv)
 {
 	pid_t pid;
 	int status;
+	char *cmd_path;
+
+	if (command[0][0] == '/' || command[0][0] == '.')
+		cmd_path = _strdup(command[0]);
+	else
+	{
+		cmd_path = search_path(command[0]);
+	}
+	if (cmd_path == NULL)
+	{
+		write(STDERR_FILENO, argv[0], strlen(argv[0]));
+		write(STDERR_FILENO, ": 1: ", 5);
+		write(STDERR_FILENO, command[0], strlen(command[0]));
+		write(STDERR_FILENO, ": not found\n", 12);
+		free_arr(command);
+		return (127);
+	}
 
 	pid = fork();
 	if (pid == 0)
 	{
-		if (execve(command[0], command, environ) == -1)
+		if (execve(cmd_path, command, environ) == -1)
 		{
 			perror(argv[0]);
 			free_arr(command);
@@ -27,5 +44,6 @@ int execute_command(char **command, char **argv)
 		waitpid(pid, &status, 0);
 		free_arr(command);
 	}
+	free(cmd_path);
 	return (WEXITSTATUS(status));
 }

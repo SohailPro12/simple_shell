@@ -27,5 +27,6 @@ char **tokenizer(char *line);
 void free_arr(char **arr);
 
 int execute_command(char **command,char** argv);
+char *search_path(char *cmd);
 
 #endif /* SHELL_H */
