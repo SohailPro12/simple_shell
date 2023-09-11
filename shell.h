@@ -28,5 +28,10 @@ void free_arr(char **arr);
 
 int execute_command(char **command,char** argv);
 char *search_path(char *cmd);
+void exit_shell(char **command, int exit_status);
+char *_getenv(char *var);
+void printerror(char *shellname, char *cmd, int idx);
+char *_iatoi(int n);
+void reverse_string(char *str, int len);
 
 #endif /* SHELL_H */

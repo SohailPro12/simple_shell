@@ -11,7 +11,7 @@ int main(int ac, char **argv)
 {
 	char *buff = NULL;
 	char **command = NULL;
-	int status = 0;
+	int status = 0, idx = 0;
 
 	(void)ac;
 
@@ -26,12 +26,12 @@ int main(int ac, char **argv)
 			return (status);
 		}
 
+		idx++;
 		command = tokenizer(buff);
 		if (command == NULL)
 			continue;
 
-		status = execute_command(command, argv);
+		status = execute_command(command, argv, idx);
 	}
-
 	return (0);
 }

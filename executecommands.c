@@ -13,12 +13,15 @@ int execute_command(char **command, char **argv)
 	int status;
 	char *cmd_path;
 
+	if (_strcmp(command[0], "exit") == 0)
+	{
+		_exitshell(command);
+		return (0);
+	}
 	if (command[0][0] == '/' || command[0][0] == '.')
 		cmd_path = _strdup(command[0]);
 	else
-	{
 		cmd_path = search_path(command[0]);
-	}
 	if (cmd_path == NULL)
 	{
 		write(STDERR_FILENO, argv[0], strlen(argv[0]));
@@ -28,7 +31,6 @@ int execute_command(char **command, char **argv)
 		free_arr(command);
 		return (127);
 	}
-
 	pid = fork();
 	if (pid == 0)
 	{

@@ -32,7 +32,7 @@ char **tokenizer(char *line)
 	}
 	free(dup);
 	dup = NULL;
-	command = malloc(sizeof(char *)*(c + 1));
+	command = malloc(sizeof(char *) * (c + 1));
 	if (!command)
 	{
 		free(line);
