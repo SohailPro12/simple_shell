@@ -4,48 +4,67 @@
  * execute_command - function
  * @command: parameter
  * @argv: parameter
+ * @idx: index
  * Return: Value
  */
 
-int execute_command(char **command, char **argv)
+int execute_command(char **command, char **argv, int idx)
 {
 	pid_t pid;
 	int status;
-	char *cmd_path;
+	char *full_command;
+	static int last_status;
 
-	if (_strcmp(command[0], "exit") == 0)
+	if (strcmp(command[0], "exit") == 0)
 	{
-		_exitshell(command);
-		return (0);
+		exit_shell(command, last_status);
 	}
-	if (command[0][0] == '/' || command[0][0] == '.')
-		cmd_path = _strdup(command[0]);
-	else
-		cmd_path = search_path(command[0]);
-	if (cmd_path == NULL)
+
+	full_command = search_path(command[0]);
+	if (!full_command)
 	{
-		write(STDERR_FILENO, argv[0], strlen(argv[0]));
-		write(STDERR_FILENO, ": 1: ", 5);
-		write(STDERR_FILENO, command[0], strlen(command[0]));
-		write(STDERR_FILENO, ": not found\n", 12);
+		printerror(argv[0], command[0], idx);
 		free_arr(command);
 		return (127);
 	}
 	pid = fork();
 	if (pid == 0)
 	{
-		if (execve(cmd_path, command, environ) == -1)
+		if (execve(full_command, command, environ) == -1)
 		{
-			perror(argv[0]);
-			free_arr(command);
-			exit(0);
+			perror("execve");
+			exit(EXIT_FAILURE);
 		}
 	}
 	else
 	{
 		waitpid(pid, &status, 0);
+		last_status = WEXITSTATUS(status);
+		free(full_command);
+		full_command = NULL;
 		free_arr(command);
 	}
-	free(cmd_path);
-	return (WEXITSTATUS(status));
+	return (last_status);
+}
+/**
+ * printerror - fuc
+ * @shellname: name
+ * @cmd: cmd
+ * @idx: index
+ */
+
+void printerror(char *shellname, char *cmd, int idx)
+{
+	char *index, notfoundmess[] = ": not found\n";
+
+	index = _iatoi(idx);
+
+	write(STDERR_FILENO, shellname, _strlen(shellname));
+	write(STDERR_FILENO, ": ", 2);
+	write(STDERR_FILENO, index, _strlen(index));
+	write(STDERR_FILENO, ": ", 2);
+	write(STDERR_FILENO, cmd, _strlen(cmd));
+	write(STDERR_FILENO, notfoundmess, _strlen(notfoundmess));
+
+	free(index);
 }

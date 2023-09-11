@@ -26,7 +26,7 @@ char **tokenizer(char *line);
 
 void free_arr(char **arr);
 
-int execute_command(char **command,char** argv);
+int execute_command(char **command,char** argv, int idx);
 char *search_path(char *cmd);
 void exit_shell(char **command, int exit_status);
 char *_getenv(char *var);

@@ -6,7 +6,7 @@
  * Return: value
  */
 
-char _getenv(char *var)
+char *_getenv(char *var)
 {
 	int i;
 	char *dup, *key, *value, *env;

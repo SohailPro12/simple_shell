@@ -8,36 +8,42 @@
 
 char *search_path(char *cmd)
 {
-	char *path = getenv("PATH");
-	char *pathcopy = _strdup(path);
-	char *dir = strtok(pathcopy, ":");
-	char *cmd_path = malloc(PATH_MAX);
+	char *path_env, *full_command, *dir;
 	struct stat st;
-	char *q;
+	int i;
 
-	while (dir != NULL)
+	for (i = 0; cmd[i]; i++)
 	{
-		char *p = cmd_path;
-
-		while (*dir)
-			*p++ = *dir++;
-		*p++ = '/';
-		q = cmd;
-		while (*q)
-			*p++ = *q++;
-		*p = '\0';
-
-		if (stat(cmd_path, &st) == 0 && (st.st_mode & S_IXUSR))
+		if (cmd[i] == '/')
 		{
-			free(pathcopy);
-			pathcopy = NULL;
-			return (cmd_path);
+			if (stat(cmd, &st) == 0)
+				return (_strdup(cmd));
+			return (NULL);
 		}
-		dir = strtok(NULL, ":");
 	}
+	path_env = _getenv("PATH");
+	if (!path_env)
+		return (NULL);
+	dir = strtok(path_env, ":");
+	while (dir)
+	{
+		full_command = malloc(_strlen(dir) + _strlen(cmd) + 2);
+		if (full_command)
+		{
+			_strcpy(full_command, dir);
+			_strcat(full_command, "/");
+			_strcat(full_command, cmd);
 
-	free(pathcopy);
-	pathcopy = NULL;
-	free(cmd_path);
+			if (stat(full_command, &st) == 0)
+			{
+				free(path_env);
+				return (full_command);
+			}
+			free(full_command);
+			full_command = NULL;
+			dir = strtok(NULL, ":");
+		}
+	}
+	free(path_env);
 	return (NULL);
 }

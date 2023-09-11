@@ -1,12 +1,13 @@
 #include "shell.h"
 
 /**
- * _exitshell - function
- * @cmd: parameter
+ * exit_shell - function
+ * @command: parameter
+ * @exit_status: par stat
  */
 
-void _exitshell(char **cmd)
+void exit_shell(char **command, int exit_status)
 {
-	free_arr(cmd);
-	exit(EXIT_SUCCESS);
+	free_arr(command);
+	exit(exit_status);
 }
