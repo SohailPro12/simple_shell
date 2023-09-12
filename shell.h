@@ -29,6 +29,8 @@ void free_arr(char **arr);
 int execute_command(char **command,char** argv, int idx);
 char *search_path(char *cmd);
 void exit_shell(char **command, int exit_status);
+void _printenv(char **command);
+size_t _sizecmd(const char *str);
 char *_getenv(char *var);
 void printerror(char *shellname, char *cmd, int idx);
 char *_iatoi(int n);

@@ -15,10 +15,15 @@ int execute_command(char **command, char **argv, int idx)
 	char *full_command;
 	static int last_status;
 
-	if (strcmp(command[0], "exit") == 0)
+	if (_strcmp(command[0], "env") == 0)
 	{
-		exit_shell(command, last_status);
+		_printenv(environ);
+		free_arr(command);
+		return (0);
 	}
+
+	if (_strcmp(command[0], "exit") == 0)
+		exit_shell(command, last_status);
 
 	full_command = search_path(command[0]);
 	if (!full_command)
