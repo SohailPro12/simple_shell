@@ -23,7 +23,7 @@ int execute_command(char **command, char **argv, int idx)
 	}
 
 	if (_strcmp(command[0], "exit") == 0)
-		exit_shell(command, last_status);
+		exit_shell(command, last_status, argv);
 
 	full_command = search_path(command[0]);
 	if (!full_command)

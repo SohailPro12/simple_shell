@@ -28,7 +28,7 @@ void free_arr(char **arr);
 
 int execute_command(char **command,char** argv, int idx);
 char *search_path(char *cmd);
-void exit_shell(char **command, int exit_status);
+void exit_shell(char **command, int exit_status, char **argv);
 void _printenv(char **command);
 size_t _sizecmd(const char *str);
 char *_getenv(char *var);
@@ -36,5 +36,7 @@ void printerror(char *shellname, char *cmd, int idx);
 char *_iatoi(int n);
 void reverse_string(char *str, int len);
 int myAtoi(const char *str);
+int is_all_numbers(const char *str);
+void write_error_message(char *program_name, char *bad_argument);
 
 #endif /* SHELL_H */

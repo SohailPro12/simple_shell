@@ -4,22 +4,28 @@
  * exit_shell - function
  * @command: parameter
  * @exit_status: par stat
+ * @argv: arg
  */
 
-void exit_shell(char **command, int exit_status)
+void exit_shell(char **command, int exit_status, char **argv)
 {
-	int status;
-
 	if (command[1] != NULL)
 	{
-		status = atoi(command[1]);
-		if (status >= 0)
+		int status = myAtoi(command[1]);
+
+		if (command[1][0] == '-' || !is_all_numbers(command[1]))
+		{
+			write_error_message(argv[0], command[1]);
+			exit_status = 2;
+		}
+		else
+		{
 			exit_status = status;
+		}
 	}
 	free_arr(command);
 	exit(exit_status);
 }
-
 /**
  * _printenv - function
  * @command: parameter
