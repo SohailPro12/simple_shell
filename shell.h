@@ -35,5 +35,6 @@ char *_getenv(char *var);
 void printerror(char *shellname, char *cmd, int idx);
 char *_iatoi(int n);
 void reverse_string(char *str, int len);
+int myAtoi(const char *str);
 
 #endif /* SHELL_H */
